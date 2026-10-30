@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI PDF Chatbot</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">P</div>
+        <div>
+          <h1>PDF Chat</h1>
+          <span class="brand-sub">RAG · Groq Cloud</span>
+        </div>
+      </div>
+
+      <div class="upload-zone" id="upload-zone">
+        <input type="file" id="file-input" accept="application/pdf,.pdf" hidden />
+        <div class="upload-icon">↑</div>
+        <p class="upload-title">Drop your PDF here</p>
+        <p class="upload-hint">or <span class="link">browse files</span> · max 16 MB</p>
+      </div>
+
+      <div class="doc-card" id="doc-card">
+        <div class="doc-row">
+          <span class="dot" id="doc-dot"></span>
+          <span class="doc-name" id="doc-name">No document loaded</span>
+        </div>
+        <div class="doc-meta">
+          <div><span id="doc-pages">0</span><small>pages</small></div>
+          <div><span id="doc-chunks">0</span><small>chunks</small></div>
+        </div>
+      </div>
+
+      <div class="sidebar-foot">
+        <span class="model-badge">{{ model }}</span>
+        <button class="btn btn-ghost" id="clear-btn">Clear session</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h2>Ask your document</h2>
+        <span class="status" id="status">Ready</span>
+      </header>
+
+      <section class="chat" id="chat">
+        <div class="empty-state" id="empty-state">
+          <div class="empty-mark">✦</div>
+          <h3>Upload a PDF to get started</h3>
+          <p>Then ask questions and get answers grounded in your document, with page references.</p>
+          <div class="chips">
+            <button class="chip">Summarize this document</button>
+            <button class="chip">What are the key points?</button>
+            <button class="chip">List the main conclusions</button>
+          </div>
+        </div>
+      </section>
+
+      <form class="composer" id="composer">
+        <input type="text" id="question-input" placeholder="Ask a question about your PDF…" autocomplete="off" />
+        <button type="submit" id="send-btn" aria-label="Send">→</button>
+      </form>
+    </main>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
