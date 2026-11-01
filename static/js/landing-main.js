@@ -13,12 +13,11 @@
   if (typeof Lenis !== "undefined" && !isReducedMotion) {
     try {
       lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: "vertical",
-        gestureOrientation: "vertical",
-        smoothWheel: true,
+        lerp: 0.12, // Responsive, instantaneous physical feel without delay
         wheelMultiplier: 1.0,
+        touchMultiplier: 1.5,
+        smoothWheel: true,
+        smoothTouch: false, // Keep native 1:1 touch response on mobile & trackpads
       });
 
       // Integrate Lenis with GSAP ScrollTrigger
@@ -52,7 +51,7 @@
       if (targetEl) {
         e.preventDefault();
         if (lenis) {
-          lenis.scrollTo(targetEl, { offset: -60, duration: 1.4 });
+          lenis.scrollTo(targetEl, { offset: -60, duration: 0.8 });
         } else {
           targetEl.scrollIntoView({ behavior: "smooth" });
         }
@@ -165,20 +164,6 @@
         },
       });
     });
-
-    // Subtle magnetic parallax on ambient background glow blobs
-    window.addEventListener(
-      "mousemove",
-      (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 30;
-        const y = (e.clientY / window.innerHeight - 0.5) * 30;
-        const glow1 = document.querySelector(".glow-1");
-        const glow2 = document.querySelector(".glow-2");
-        if (glow1) glow1.style.transform = `translate(${x}px, ${y}px)`;
-        if (glow2) glow2.style.transform = `translate(${-x}px, ${-y}px)`;
-      },
-      { passive: true }
-    );
   }
 
   // 4. Interactive Product Demonstration (Preview Section)

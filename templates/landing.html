@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}?v=2" />
 </head>
 <body>
   <!-- Ambient background glow elements -->
@@ -931,8 +931,8 @@ This allows the model to jointly attend to information from different representa
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 
   <!-- Custom Landing Page Logic -->
-  <script src="{{ url_for('static', filename='js/landing-scene.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/landing-main.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/landing-scene.js') }}?v=2"></script>
+  <script src="{{ url_for('static', filename='js/landing-main.js') }}?v=2"></script>
 </body>
 </html>
 

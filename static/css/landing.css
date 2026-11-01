@@ -50,7 +50,6 @@
 
 html {
   font-size: 16px;
-  scroll-behavior: smooth;
   background-color: var(--bg-main);
   color: var(--text-primary);
   font-family: var(--font-main);
@@ -85,28 +84,27 @@ button {
   position: fixed;
   border-radius: 50%;
   pointer-events: none;
-  filter: blur(140px);
+  filter: blur(40px);
   z-index: 0;
-  opacity: 0.42;
-  will-change: transform;
+  opacity: 0.38;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .glow-1 {
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.28) 0%, rgba(99, 102, 241, 0) 70%);
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(99, 102, 241, 0.08) 40%, transparent 70%);
   top: -150px;
   left: 20%;
-  animation: driftGlow1 22s ease-in-out infinite alternate;
 }
 
 .glow-2 {
   width: 650px;
   height: 650px;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0) 70%);
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, rgba(16, 185, 129, 0.06) 40%, transparent 70%);
   top: 40%;
   right: -100px;
-  animation: driftGlow2 28s ease-in-out infinite alternate;
 }
 
 .grid-overlay {
