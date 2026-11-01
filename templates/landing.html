@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF-RAG — Intelligent Document Assistant & Semantic Search</title>
+  <meta name="description" content="Upload research papers, PDFs, and documents. Ask questions, explore insights, and get intelligent answers powered by Groq Cloud, FAISS, and Sentence Transformers." />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}" />
+</head>
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- Smooth Scroll Wrapper (Lenis target) -->
+  <div id="smooth-wrapper">
+    <div id="smooth-content">
+
+      <!-- Navigation Bar -->
+      <header class="navbar" id="navbar">
+        <div class="nav-container">
+          <a href="/" class="brand-link" aria-label="PDF-RAG Home">
+            <div class="brand-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <path d="m9 15 2 2 4-4"/>
+              </svg>
+            </div>
+            <div class="brand-text">
+              <span class="brand-title">PDF<span class="gradient-accent">RAG</span></span>
+              <span class="brand-badge">LPU</span>
+            </div>
+          </a>
+
+          <nav class="nav-links" id="nav-menu">
+            <a href="#problem" class="nav-item">Why RAG</a>
+            <a href="#how-it-works" class="nav-item">How It Works</a>
+            <a href="#features" class="nav-item">Features</a>
+            <a href="#preview" class="nav-item">Interface</a>
+            <a href="https://github.com/Phoenix-91/pdf_RAG" target="_blank" rel="noopener noreferrer" class="nav-item nav-github" aria-label="GitHub Repository">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+              <span>GitHub</span>
+            </a>
+          </nav>
+
+          <div class="nav-actions">
+            <div class="status-indicator-pill">
+              <span class="status-radar"></span>
+              <span class="status-label">Groq Cloud Ready</span>
+            </div>
+            <a href="/app" class="btn btn-nav-cta">
+              <span>Try Now</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Navigation">
+              <span></span><span></span><span></span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- HERO SECTION WITH 3D CANVAS -->
+      <section class="hero-section" id="hero">
+        <div class="hero-container">
+          <div class="hero-content">
+            <!-- Small status indicator -->
+            <div class="hero-status-tag" data-reveal="fade-up">
+              <span class="status-dot"></span>
+              <span class="status-text">AI-powered document intelligence</span>
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="hero-title" data-reveal="fade-up" data-delay="100">
+              Your Documents. <br/>
+              Your Knowledge. <br/>
+              <span class="gradient-text">One Conversation.</span>
+            </h1>
+
+            <!-- Description -->
+            <p class="hero-desc" data-reveal="fade-up" data-delay="200">
+              Upload your research papers, PDFs, and documents. Ask questions, explore insights, and get intelligent answers powered by AI.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="hero-cta-group" data-reveal="fade-up" data-delay="300">
+              <a href="/app" class="btn btn-primary btn-glow">
+                <span>Try Now</span>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+              <a href="#problem" class="btn btn-secondary">
+                <span>Explore How It Works</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 5v14M19 12l-7 7-7-7"/>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Trust / Architecture metrics -->
+            <div class="hero-metrics" data-reveal="fade-up" data-delay="400">
+              <div class="metric-item">
+                <span class="metric-val">LPU™</span>
+                <span class="metric-lbl">Near-instant Groq inference</span>
+              </div>
+              <div class="metric-separator"></div>
+              <div class="metric-item">
+                <span class="metric-val">FAISS</span>
+                <span class="metric-lbl">Sub-millisecond vector search</span>
+              </div>
+              <div class="metric-separator"></div>
+              <div class="metric-item">
+                <span class="metric-val">100%</span>
+                <span class="metric-lbl">Grounded page citations</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3D Visualization Canvas Container -->
+          <div class="hero-3d-wrapper" id="hero-3d-wrapper">
+            <canvas id="hero-three-canvas" aria-label="Interactive 3D visualization of document text chunking into vector knowledge nodes and semantic retrieval"></canvas>
+            
+            <!-- Interactive 3D HUD Overlay -->
+            <div class="hero-3d-hud" id="hero-3d-hud">
+              <div class="hud-chip hud-pulse">
+                <span class="hud-dot"></span>
+                <span>Interactive 3D Engine</span>
+              </div>
+              <div class="hud-hint">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                </svg>
+                <span>Rotate & Explore Knowledge Network</span>
+              </div>
+            </div>
+
+            <!-- 3D Holographic Chat Card (Synced with Scene) -->
+            <div class="holo-chat-preview" id="holo-chat-preview">
+              <div class="holo-header">
+                <div class="holo-badge">
+                  <span class="holo-dot"></span>
+                  <span>Semantic Match</span>
+                </div>
+                <span class="holo-meta">Score 0.94</span>
+              </div>
+              <div class="holo-query">
+                <span class="holo-q-tag">Q:</span> "How does Multi-Head Attention attend to different subspaces?"
+              </div>
+              <div class="holo-answer">
+                <span class="holo-a-tag">AI:</span> "Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions..."
+              </div>
+              <div class="holo-footer">
+                <span class="holo-source-pill">Page 4</span>
+                <span class="holo-source-pill">Page 5</span>
+                <span class="holo-model-pill">Groq LPU</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scroll down indicator -->
+        <a href="#problem" class="scroll-cue" aria-label="Scroll to Problem Section">
+          <div class="scroll-mouse">
+            <div class="scroll-wheel"></div>
+          </div>
+        </a>
+      </section>
+
+      <!-- SECTION 2: PROBLEM → SOLUTION -->
+      <section class="section problem-section" id="problem">
+        <div class="section-container">
+          <div class="section-header text-center">
+            <span class="section-eyebrow" data-reveal="fade-up">The Information Bottleneck</span>
+            <h2 class="section-title" data-reveal="fade-up" data-delay="100">
+              Stop Searching. <span class="gradient-text">Start Understanding.</span>
+            </h2>
+            <p class="section-subtitle" data-reveal="fade-up" data-delay="200">
+              Traditional document analysis breaks down under the weight of modern data. Skimming PDFs and relying on naive search drains hours and produces flawed conclusions.
+            </p>
+          </div>
+
+          <!-- Problem Cards Grid -->
+          <div class="problem-grid">
+            <div class="problem-card" data-reveal="fade-up" data-delay="100">
+              <div class="card-icon-wrap icon-danger">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10 9 9 9 8 9"/>
+                </svg>
+              </div>
+              <div class="card-tag">Problem 01</div>
+              <h3 class="card-title">Buried Information</h3>
+              <p class="card-desc">
+                Important insights, critical findings, and nuanced data are buried deep inside lengthy, multi-page PDFs, complex reports, and appendices.
+              </p>
+              <div class="problem-stat">
+                <span class="stat-highlight">80%+</span>
+                <span>of critical insights go unread in long files</span>
+              </div>
+            </div>
+
+            <div class="problem-card" data-reveal="fade-up" data-delay="200">
+              <div class="card-icon-wrap icon-warning">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <div class="card-tag">Problem 02</div>
+              <h3 class="card-title">Time-Consuming Skimming</h3>
+              <p class="card-desc">
+                Finding specific facts, equations, or references takes too much time. Researchers and engineers lose hours manually scrolling and cross-referencing.
+              </p>
+              <div class="problem-stat">
+                <span class="stat-highlight">15+ hrs</span>
+                <span>spent weekly searching through documents</span>
+              </div>
+            </div>
+
+            <div class="problem-card" data-reveal="fade-up" data-delay="300">
+              <div class="card-icon-wrap icon-danger">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  <line x1="8" y1="11" x2="14" y2="11"/>
+                </svg>
+              </div>
+              <div class="card-tag">Problem 03</div>
+              <h3 class="card-title">Keyword Blindness</h3>
+              <p class="card-desc">
+                Traditional keyword search (Ctrl+F) often misses context, paraphrased phrasing, and conceptual relationships that don't match exact strings.
+              </p>
+              <div class="problem-stat">
+                <span class="stat-highlight">Zero</span>
+                <span>semantic understanding in traditional search</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Transformation Demonstration -->
+          <div class="solution-transformation" data-reveal="fade-up" data-delay="300">
+            <div class="trans-header">
+              <div class="trans-badge">The RAG Transformation</div>
+              <h3 class="trans-title">From Unstructured Pages to Grounded Intelligence</h3>
+            </div>
+
+            <div class="transformation-flow">
+              <!-- Raw Document -->
+              <div class="flow-step step-raw">
+                <div class="flow-card">
+                  <div class="flow-card-header">
+                    <span class="dot-red"></span>
+                    <span class="flow-label">Raw PDF File</span>
+                  </div>
+                  <div class="doc-mockup-mini">
+                    <div class="mock-line-title"></div>
+                    <div class="mock-line"></div>
+                    <div class="mock-line"></div>
+                    <div class="mock-line short"></div>
+                    <div class="mock-line"></div>
+                    <div class="mock-line"></div>
+                  </div>
+                  <span class="flow-status text-muted">Unstructured & Static</span>
+                </div>
+              </div>
+
+              <!-- Pipeline Arrow 1 -->
+              <div class="flow-arrow">
+                <div class="pulse-line"></div>
+                <span class="arrow-label">PyMuPDF Extract</span>
+              </div>
+
+              <!-- Chunks & Embeddings -->
+              <div class="flow-step step-process">
+                <div class="flow-card">
+                  <div class="flow-card-header">
+                    <span class="dot-amber"></span>
+                    <span class="flow-label">180w Chunks + Embeddings</span>
+                  </div>
+                  <div class="vector-cluster-mini">
+                    <div class="v-node n1"></div>
+                    <div class="v-node n2"></div>
+                    <div class="v-node n3"></div>
+                    <div class="v-node n4"></div>
+                    <div class="v-link l1"></div>
+                    <div class="v-link l2"></div>
+                  </div>
+                  <span class="flow-status text-amber">all-MiniLM-L6-v2 Vectors</span>
+                </div>
+              </div>
+
+              <!-- Pipeline Arrow 2 -->
+              <div class="flow-arrow">
+                <div class="pulse-line"></div>
+                <span class="arrow-label">FAISS IndexFlatIP</span>
+              </div>
+
+              <!-- Answer with Source -->
+              <div class="flow-step step-outcome">
+                <div class="flow-card active-card">
+                  <div class="flow-card-header">
+                    <span class="dot-green"></span>
+                    <span class="flow-label">Grounded AI Answer</span>
+                  </div>
+                  <div class="answer-mockup-mini">
+                    <div class="ans-badge">Groq Synthesized</div>
+                    <p class="ans-text">"High-precision answer with verified citations..."</p>
+                    <div class="ans-source">
+                      <span class="source-chip">Page 4</span>
+                      <span class="source-chip">Page 7</span>
+                    </div>
+                  </div>
+                  <span class="flow-status text-green">100% Context Grounded</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: HOW IT WORKS — ANIMATED RAG STORYTELLING -->
+      <section class="section how-it-works-section" id="how-it-works">
+        <div class="section-container">
+          <div class="section-header text-center">
+            <span class="section-eyebrow" data-reveal="fade-up">Interactive Pipeline</span>
+            <h2 class="section-title" data-reveal="fade-up" data-delay="100">
+              How It Works
+            </h2>
+            <p class="section-subtitle" data-reveal="fade-up" data-delay="200">
+              Three visually connected stages transforming raw document text into precision knowledge retrieval.
+            </p>
+          </div>
+
+          <!-- Stepped Storytelling Timeline -->
+          <div class="story-timeline">
+            <!-- Continuous SVG Connection Line -->
+            <div class="timeline-track">
+              <div class="timeline-progress" id="timeline-progress"></div>
+            </div>
+
+            <!-- STEP 01 -->
+            <div class="story-step" id="story-step-1" data-step="1">
+              <div class="story-content" data-reveal="fade-right">
+                <div class="step-num-badge">Stage 01</div>
+                <h3 class="step-title">Upload Your PDF</h3>
+                <p class="step-desc">
+                  Upload your research papers or documents and let the system process them.
+                </p>
+                <div class="step-details">
+                  <div class="detail-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Instant drag-and-drop or file browsing up to 16 MB</span>
+                  </div>
+                  <div class="detail-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>PyMuPDF (fitz) extracts text and preserves page numbering</span>
+                  </div>
+                  <div class="detail-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Zero disk retention — files are processed in-memory & wiped</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="story-visual" data-reveal="fade-left">
+                <div class="visual-card visual-card-1">
+                  <div class="upload-sim-box">
+                    <div class="upload-sim-icon-glow">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                      </svg>
+                    </div>
+                    <div class="upload-file-pill">
+                      <div class="pill-doc-icon">PDF</div>
+                      <div class="pill-doc-info">
+                        <span class="pill-doc-title">Attention_Is_All_You_Need.pdf</span>
+                        <span class="pill-doc-size">2.4 MB · 15 Pages</span>
+                      </div>
+                      <span class="pill-status-dot ready"></span>
+                    </div>
+                    <div class="scan-laser-beam"></div>
+                  </div>
+                  <div class="card-caption">
+                    <span class="caption-dot"></span>
+                    <span>PyMuPDF parsing document pages & text stream</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 02 -->
+            <div class="story-step reverse" id="story-step-2" data-step="2">
+              <div class="story-content" data-reveal="fade-left">
+                <div class="step-num-badge">Stage 02</div>
+                <h3 class="step-title">AI Understands Your Document</h3>
+                <p class="step-desc">
+                  Your document is processed into meaningful chunks and transformed into searchable vector representations.
+                </p>
+                <div class="step-details">
+                  <div class="detail-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>180-word sliding window chunking with 40-word overlap</span>
+                  </div>
+                  <div class="detail-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Sentence-Transformers (all-MiniLM-L6-v2) generates 384-dim vectors</span>
+                  </div>
+                  <div class="detail-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>FAISS IndexFlatIP builds normalized cosine similarity index</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="story-visual" data-reveal="fade-right">
+                <div class="visual-card visual-card-2">
+                  <div class="chunking-sim-box">
+                    <div class="chunk-slice c1">
+                      <span class="chunk-page-tag">Page 1 · Chunk #01</span>
+                      <p>"The dominant sequence transduction models are based on complex recurrent or convolutional neural networks..."</p>
+                      <div class="vector-bar"><span style="width: 82%"></span></div>
+                    </div>
+                    <div class="chunk-slice c2 active-slice">
+                      <span class="chunk-page-tag">Page 3 · Chunk #07</span>
+                      <p>"An attention function can be described as mapping a query and a set of key-value pairs to an output..."</p>
+                      <div class="vector-bar"><span style="width: 95%"></span></div>
+                    </div>
+                    <div class="chunk-slice c3">
+                      <span class="chunk-page-tag">Page 6 · Chunk #18</span>
+                      <p>"Positional encoding is added to input embeddings to give the model information about relative order..."</p>
+                      <div class="vector-bar"><span style="width: 76%"></span></div>
+                    </div>
+                  </div>
+                  <div class="card-caption">
+                    <span class="caption-dot"></span>
+                    <span>Text fragmented into indexed semantic vectors</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 03 -->
+            <div class="story-step" id="story-step-3" data-step="3">
+              <div class="story-content" data-reveal="fade-right">
+                <div class="step-num-badge">Stage 03</div>
+                <h3 class="step-title">Ask Anything</h3>
+                <p class="step-desc">
+                  Ask questions in natural language and receive context-aware answers grounded in your documents.
+                </p>
+                <div class="step-details">
+                  <div class="detail-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>User query is vectorized and searched against FAISS in milliseconds</span>
+                  </div>
+                  <div class="detail-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Top-4 most relevant chunks are compiled into strict context</span>
+                  </div>
+                  <div class="detail-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Groq Cloud generates answers with verifiable page references</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="story-visual" data-reveal="fade-left">
+                <div class="visual-card visual-card-3">
+                  <div class="chat-sim-box">
+                    <div class="sim-msg sim-user">
+                      <div class="sim-avatar">You</div>
+                      <div class="sim-bubble">What makes self-attention faster than recurrence?</div>
+                    </div>
+                    <div class="sim-retrieval-bar">
+                      <span class="radar-dot"></span>
+                      <span>FAISS retrieved 4 chunks · Top match score 0.94</span>
+                    </div>
+                    <div class="sim-msg sim-ai">
+                      <div class="sim-avatar">AI</div>
+                      <div class="sim-bubble">
+                        Self-attention allows total parallelization across sequential positions because operations are computed via matrix multiplication rather than sequential step recurrence.
+                        <div class="sim-sources">
+                          <span class="source-tag">Page 4</span>
+                          <span class="source-tag">Page 6</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-caption">
+                    <span class="caption-dot"></span>
+                    <span>Context-grounded synthesis via Groq Cloud</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: FEATURES SHOWCASE (ONLY ACTUALLY IMPLEMENTED) -->
+      <section class="section features-section" id="features">
+        <div class="section-container">
+          <div class="section-header text-center">
+            <span class="section-eyebrow" data-reveal="fade-up">Engineered For Precision</span>
+            <h2 class="section-title" data-reveal="fade-up" data-delay="100">
+              Verified Capabilities. Zero Hallucinations.
+            </h2>
+            <p class="section-subtitle" data-reveal="fade-up" data-delay="200">
+              Built on a lean, high-performance RAG pipeline engineered strictly around your uploaded documents.
+            </p>
+          </div>
+
+          <div class="features-grid">
+            <!-- Feature 1: Chat With PDFs -->
+            <div class="feature-card" data-reveal="fade-up" data-delay="100">
+              <div class="feature-header">
+                <div class="feature-icon icon-emerald">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </div>
+                <span class="feature-tag">PyMuPDF Engine</span>
+              </div>
+              <h3 class="feature-title">Chat With PDFs</h3>
+              <p class="feature-desc">
+                Instantly interact with multi-page academic research, legal documentation, technical manuals, and whitepapers with responsive conversation.
+              </p>
+              <div class="feature-metric">
+                <span class="metric-num">16 MB</span>
+                <span class="metric-label">Max upload capacity</span>
+              </div>
+            </div>
+
+            <!-- Feature 2: Context-Aware Answers -->
+            <div class="feature-card" data-reveal="fade-up" data-delay="150">
+              <div class="feature-header">
+                <div class="feature-icon icon-violet">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                  </svg>
+                </div>
+                <span class="feature-tag">Groq LPU™</span>
+              </div>
+              <h3 class="feature-title">Context-Aware Answers</h3>
+              <p class="feature-desc">
+                Powered by Groq Cloud's ultra-low latency LPU inference with strict system constraints ensuring answers use only your verified document data.
+              </p>
+              <div class="feature-metric">
+                <span class="metric-num">&lt; 0.8s</span>
+                <span class="metric-label">Inference response time</span>
+              </div>
+            </div>
+
+            <!-- Feature 3: Source-Based Responses -->
+            <div class="feature-card" data-reveal="fade-up" data-delay="200">
+              <div class="feature-header">
+                <div class="feature-icon icon-amber">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                </div>
+                <span class="feature-tag">Attribution</span>
+              </div>
+              <h3 class="feature-title">Source-Based Responses</h3>
+              <p class="feature-desc">
+                Every AI-generated answer displays exact page-number tags (e.g., Page 4, Page 6). Cross-examine and verify the ground truth immediately.
+              </p>
+              <div class="feature-metric">
+                <span class="metric-num">Page X</span>
+                <span class="metric-label">Verifiable citation tags</span>
+              </div>
+            </div>
+
+            <!-- Feature 4: Semantic Search -->
+            <div class="feature-card" data-reveal="fade-up" data-delay="250">
+              <div class="feature-header">
+                <div class="feature-icon icon-emerald">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    <path d="m11 8 3 3-3 3"/>
+                  </svg>
+                </div>
+                <span class="feature-tag">FAISS IndexFlatIP</span>
+              </div>
+              <h3 class="feature-title">Semantic Search</h3>
+              <p class="feature-desc">
+                Dense vector similarity using Sentence-Transformers and FAISS cosine search retrieves conceptual context even when phrasing differs completely.
+              </p>
+              <div class="feature-metric">
+                <span class="metric-num">384-dim</span>
+                <span class="metric-label">all-MiniLM-L6-v2 vectors</span>
+              </div>
+            </div>
+
+            <!-- Feature 5: Smart Window Chunking -->
+            <div class="feature-card" data-reveal="fade-up" data-delay="300">
+              <div class="feature-header">
+                <div class="feature-icon icon-violet">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="3" y1="9" x2="21" y2="9"/>
+                    <line x1="9" y1="21" x2="9" y2="9"/>
+                  </svg>
+                </div>
+                <span class="feature-tag">Context Continuity</span>
+              </div>
+              <h3 class="feature-title">Sliding-Window Chunking</h3>
+              <p class="feature-desc">
+                180-word chunking windows with a 40-word overlap safeguard boundary contexts, preventing sentences or equations from being truncated in retrieval.
+              </p>
+              <div class="feature-metric">
+                <span class="metric-num">Top-4</span>
+                <span class="metric-label">Retrieved chunk candidates</span>
+              </div>
+            </div>
+
+            <!-- Feature 6: Conversational Session Memory -->
+            <div class="feature-card" data-reveal="fade-up" data-delay="350">
+              <div class="feature-header">
+                <div class="feature-icon icon-amber">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 8v4l3 3"/>
+                    <circle cx="12" cy="12" r="9"/>
+                  </svg>
+                </div>
+                <span class="feature-tag">Multi-Turn</span>
+              </div>
+              <h3 class="feature-title">Session Memory</h3>
+              <p class="feature-desc">
+                Maintains rolling conversation history across turns, enabling follow-up questions like "Can you explain that last formula in simpler terms?"
+              </p>
+              <div class="feature-metric">
+                <span class="metric-num">8 Turns</span>
+                <span class="metric-label">Rolling context window</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: INTERACTIVE APPLICATION PREVIEW -->
+      <section class="section preview-section" id="preview">
+        <div class="section-container">
+          <div class="section-header text-center">
+            <span class="section-eyebrow" data-reveal="fade-up">Product Demonstration</span>
+            <h2 class="section-title" data-reveal="fade-up" data-delay="100">
+              Explore The Live Experience
+            </h2>
+            <p class="section-subtitle" data-reveal="fade-up" data-delay="200">
+              A distraction-free interface engineered for focus. Click sample questions below to preview real-time query responses.
+            </p>
+          </div>
+
+          <!-- Interactive Question Chips -->
+          <div class="preview-chips-bar" data-reveal="fade-up" data-delay="250">
+            <span class="chips-label">Try sample queries:</span>
+            <button class="preview-chip active" data-q="0">What is Multi-Head Attention?</button>
+            <button class="preview-chip" data-q="1">Explain Positional Encoding</button>
+            <button class="preview-chip" data-q="2">What were the training parameters?</button>
+            <button class="preview-chip" data-q="3">What datasets were evaluated?</button>
+          </div>
+
+          <!-- Application Interface Mockup Window -->
+          <div class="app-mockup-frame" data-reveal="fade-up" data-delay="300">
+            <!-- Window Titlebar -->
+            <div class="mockup-titlebar">
+              <div class="traffic-lights">
+                <span class="tl-red"></span>
+                <span class="tl-yellow"></span>
+                <span class="tl-green"></span>
+              </div>
+              <div class="mockup-url">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <span>http://127.0.0.1:5000/app</span>
+              </div>
+              <div class="mockup-model-badge">
+                <span class="model-badge-pulse"></span>
+                <span>openai/gpt-oss-120b</span>
+              </div>
+            </div>
+
+            <!-- Mockup App Body -->
+            <div class="mockup-app-body">
+              <!-- Left Sidebar -->
+              <aside class="mockup-sidebar">
+                <div class="mockup-brand">
+                  <div class="mockup-brand-mark">P</div>
+                  <div>
+                    <div class="mockup-brand-title">PDF Chat</div>
+                    <div class="mockup-brand-sub">RAG · Groq Cloud</div>
+                  </div>
+                </div>
+
+                <div class="mockup-upload-zone">
+                  <div class="mockup-upload-icon">↑</div>
+                  <div class="mockup-upload-text">Attention_Is_All_You_Need.pdf</div>
+                  <div class="mockup-upload-sub">Active session · 15 pages</div>
+                </div>
+
+                <div class="mockup-doc-card">
+                  <div class="mockup-doc-row">
+                    <span class="mockup-dot ready"></span>
+                    <span class="mockup-doc-name">Attention_Is_All_You_Need.pdf</span>
+                  </div>
+                  <div class="mockup-doc-meta">
+                    <div>
+                      <span class="meta-val">15</span>
+                      <small>pages</small>
+                    </div>
+                    <div>
+                      <span class="meta-val">48</span>
+                      <small>chunks</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mockup-sidebar-foot">
+                  <div class="mockup-badge">Groq Cloud LPU</div>
+                  <button class="mockup-clear-btn" id="mockup-clear-trigger">Clear session</button>
+                </div>
+              </aside>
+
+              <!-- Main Chat Area -->
+              <main class="mockup-main">
+                <header class="mockup-topbar">
+                  <span class="mockup-top-title">Ask your document</span>
+                  <div class="mockup-top-status">
+                    <span class="status-dot"></span>
+                    <span id="mockup-status-label">Ready</span>
+                  </div>
+                </header>
+
+                <div class="mockup-chat-area" id="mockup-chat-area">
+                  <!-- User Message -->
+                  <div class="mockup-msg user" id="mockup-user-msg">
+                    <div class="mockup-avatar">You</div>
+                    <div class="mockup-bubble" id="mockup-user-text">
+                      What is Multi-Head Attention and what is its primary benefit?
+                    </div>
+                  </div>
+
+                  <!-- AI Message -->
+                  <div class="mockup-msg ai" id="mockup-ai-msg">
+                    <div class="mockup-avatar">AI</div>
+                    <div class="mockup-bubble">
+                      <div id="mockup-ai-text">
+                        <strong>Multi-Head Attention</strong> linearly projects queries, keys, and values <code>h</code> times with different learned linear projections to dimensions <code>d_k</code>, <code>d_k</code>, and <code>d_v</code>.
+
+This allows the model to jointly attend to information from different representation subspaces at different positions, which single attention heads cannot achieve simultaneously.
+                      </div>
+                      <div class="mockup-sources" id="mockup-sources-container">
+                        <span class="mockup-source-tag">Page 4</span>
+                        <span class="mockup-source-tag">Page 5</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Chat Composer -->
+                <div class="mockup-composer">
+                  <div class="mockup-input-box">
+                    <span class="input-placeholder" id="mockup-input-display">Ask a question about your PDF…</span>
+                  </div>
+                  <button class="mockup-send-btn" aria-label="Send query">→</button>
+                </div>
+              </main>
+            </div>
+          </div>
+
+          <!-- Bottom Action Prompt -->
+          <div class="preview-cta-strip" data-reveal="fade-up" data-delay="350">
+            <span>Ready to test with your own PDF documents?</span>
+            <a href="/app" class="btn btn-primary btn-sm">
+              <span>Launch Live Interface</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 6: FINAL CTA -->
+      <section class="section cta-section" id="cta">
+        <div class="cta-glow-portal"></div>
+        <div class="section-container">
+          <div class="cta-box" data-reveal="fade-up">
+            <div class="cta-badge">Instant Document Intelligence</div>
+            <h2 class="cta-title">
+              Your Next Insight Is Just <br/>
+              <span class="gradient-text">One Question Away.</span>
+            </h2>
+            <p class="cta-desc">
+              Bring your documents. Let AI do the heavy reading.
+            </p>
+            <div class="cta-action-row">
+              <a href="/app" class="btn btn-primary btn-lg btn-glow">
+                <span>Try Now</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
+            <div class="cta-feature-pills">
+              <span class="pill-item">✓ Zero Signup</span>
+              <span class="pill-item">✓ Free to Use</span>
+              <span class="pill-item">✓ In-Memory Processing</span>
+              <span class="pill-item">✓ Strictly Grounded</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        <div class="footer-container">
+          <div class="footer-top">
+            <div class="footer-brand-col">
+              <a href="/" class="brand-link" aria-label="PDF-RAG Home">
+                <div class="brand-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <path d="m9 15 2 2 4-4"/>
+                  </svg>
+                </div>
+                <div class="brand-text">
+                  <span class="brand-title">PDF<span class="gradient-accent">RAG</span></span>
+                </div>
+              </a>
+              <p class="footer-about">
+                High-performance Retrieval-Augmented Generation for research papers and documents. Grounded strictly in your uploaded text with verified page citations.
+              </p>
+            </div>
+
+            <div class="footer-nav-col">
+              <span class="footer-col-title">Navigation</span>
+              <a href="#hero" class="footer-link">Hero</a>
+              <a href="#problem" class="footer-link">Why RAG</a>
+              <a href="#how-it-works" class="footer-link">How It Works</a>
+              <a href="#features" class="footer-link">Features</a>
+              <a href="#preview" class="footer-link">Interface Preview</a>
+            </div>
+
+            <div class="footer-nav-col">
+              <span class="footer-col-title">Technology</span>
+              <span class="tech-item">Groq Cloud LPU™</span>
+              <span class="tech-item">FAISS Vector Database</span>
+              <span class="tech-item">all-MiniLM-L6-v2</span>
+              <span class="tech-item">PyMuPDF (fitz)</span>
+              <span class="tech-item">Three.js WebGL</span>
+              <span class="tech-item">GSAP + ScrollTrigger</span>
+            </div>
+
+            <div class="footer-nav-col">
+              <span class="footer-col-title">Open Source</span>
+              <a href="https://github.com/Phoenix-91/pdf_RAG" target="_blank" rel="noopener noreferrer" class="footer-link github-footer-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+                <span>View on GitHub</span>
+              </a>
+              <span class="footer-license">MIT Educational License</span>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <p class="copyright">
+              © 2026 PDF-RAG. Built for high-fidelity document comprehension.
+            </p>
+            <div class="footer-meta">
+              <span>Flask Python 3.9+</span>
+              <span class="dot-sep">·</span>
+              <a href="/app" class="footer-cta-link">Launch App →</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    </div><!-- #smooth-content -->
+  </div><!-- #smooth-wrapper -->
+
+  <!-- Scripts: CDNs with robust fallback handling -->
+  <!-- Three.js for 3D visualization -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lenis for buttery smooth scrolling -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <!-- Custom Landing Page Logic -->
+  <script src="{{ url_for('static', filename='js/landing-scene.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/landing-main.js') }}"></script>
+</body>
+</html>
