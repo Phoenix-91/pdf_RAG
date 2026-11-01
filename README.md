@@ -12,13 +12,14 @@ PDF-RAG is a high-performance Retrieval-Augmented Generation (RAG) system that a
 - **Citations & Sources**: Every answer includes the specific page numbers where the information was found.
 - **Clean UI**: A modern, dark-themed interface with drag-and-drop support.
 - **Session Memory**: Remembers recent conversation history for follow-up questions.
+- **Interactive 3D Landing Page**: High-performance Three.js WebGL visualization explaining the RAG pipeline, smooth scroll storytelling with GSAP and Lenis, and an interactive UI preview.
 
 ## 🛠️ Tech Stack
 
 - **Backend**: Python, Flask
 - **AI/ML**: Groq Cloud API, FAISS (Facebook AI Similarity Search), Sentence-Transformers
 - **Parsing**: PyMuPDF (fitz)
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript
+- **Frontend**: HTML5, CSS3, Vanilla JavaScript, Three.js, GSAP & ScrollTrigger, Lenis
 
 ## 📋 Prerequisites
 
@@ -52,11 +53,13 @@ PDF-RAG is a high-performance Retrieval-Augmented Generation (RAG) system that a
    ```bash
    python app.py
    ```
-2. Open your browser and navigate to `http://127.0.0.1:5000`.
+2. Open your browser:
+   - `http://127.0.0.1:5000/` → Premium animated landing page (interactive 3D WebGL scene, GSAP animations, Lenis smooth scrolling).
+   - `http://127.0.0.1:5000/app` → Core PDF RAG application.
 
 ## 📂 Project Structure
 
-- `app.py`: Main Flask application and API endpoints.
+- `app.py`: Main Flask application, landing page route (`/`), app route (`/app`), and API endpoints.
 - `config.py`: Configuration settings and environment variable loading.
 - `services/`:
   - `pdf_service.py`: PDF text extraction logic.
@@ -64,8 +67,15 @@ PDF-RAG is a high-performance Retrieval-Augmented Generation (RAG) system that a
   - `embedding_service.py`: Local vector embedding generation.
   - `vector_service.py`: FAISS index management and similarity search.
   - `groq_service.py`: Groq LLM integration.
-- `static/`: Frontend assets (CSS, JS).
-- `templates/`: HTML templates.
+- `static/`:
+  - `css/style.css`: Application styles.
+  - `css/landing.css`: Landing page cinematic styling & animations.
+  - `js/app.js`: Application chat & upload client logic.
+  - `js/landing-scene.js`: Three.js interactive 3D WebGL scene.
+  - `js/landing-main.js`: Lenis smooth scrolling, GSAP ScrollTrigger & UI logic.
+- `templates/`:
+  - `landing.html`: Landing page template.
+  - `index.html`: PDF RAG application interface.
 
 ## 📝 License
 

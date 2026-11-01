@@ -24,7 +24,12 @@ def reset_state():
 
 
 @app.get("/")
-def index():
+def landing():
+    return render_template("landing.html")
+
+
+@app.get("/app")
+def app_view():
     return render_template("index.html", model=Config.GROQ_MODEL)
 
 
